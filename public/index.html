@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas to PDF App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Canvas to PDF Generator</h1>
+        
+        <!-- Canvas Configuration -->
+        <div class="section">
+            <h2>Canvas Setup</h2>
+            <div class="form-group">
+                <label>Width: <input type="number" id="canvasWidth" value="800" min="100"></label>
+                <label>Height: <input type="number" id="canvasHeight" value="600" min="100"></label>
+                <button onclick="initCanvas()">Initialize Canvas</button>
+            </div>
+        </div>
+
+        <!-- Add Elements -->
+        <div class="section">
+            <h2>Add Elements</h2>
+            
+            <!-- Rectangle -->
+            <div class="element-form">
+                <h3>Rectangle</h3>
+                <input type="number" id="rectX" placeholder="X" value="50">
+                <input type="number" id="rectY" placeholder="Y" value="50">
+                <input type="number" id="rectWidth" placeholder="Width" value="100">
+                <input type="number" id="rectHeight" placeholder="Height" value="80">
+                <input type="color" id="rectColor" value="#ff0000">
+                <button onclick="addRectangle()">Add Rectangle</button>
+            </div>
+
+            <!-- Circle -->
+            <div class="element-form">
+                <h3>Circle</h3>
+                <input type="number" id="circleX" placeholder="X" value="200">
+                <input type="number" id="circleY" placeholder="Y" value="100">
+                <input type="number" id="circleRadius" placeholder="Radius" value="40">
+                <input type="color" id="circleColor" value="#00ff00">
+                <button onclick="addCircle()">Add Circle</button>
+            </div>
+
+            <!-- Text -->
+            <div class="element-form">
+                <h3>Text</h3>
+                <input type="number" id="textX" placeholder="X" value="300">
+                <input type="number" id="textY" placeholder="Y" value="100">
+                <input type="text" id="textContent" placeholder="Text content" value="Hello World">
+                <input type="number" id="textSize" placeholder="Font size" value="24">
+                <input type="color" id="textColor" value="#0000ff">
+                <button onclick="addText()">Add Text</button>
+            </div>
+
+            <!-- Image -->
+            <div class="element-form">
+                <h3>Image</h3>
+                <input type="file" id="imageFile" accept="image/*">
+                <input type="number" id="imageX" placeholder="X" value="400">
+                <input type="number" id="imageY" placeholder="Y" value="50">
+                <input type="number" id="imageWidth" placeholder="Width (optional)">
+                <input type="number" id="imageHeight" placeholder="Height (optional)">
+                <button onclick="addImage()">Add Image</button>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="section">
+            <h2>Preview</h2>
+            <canvas id="previewCanvas" width="800" height="600"></canvas>
+            <div class="controls">
+                <button onclick="updatePreview()">Update Preview</button>
+                <button onclick="exportPDF()" class="export-btn">Export as PDF</button>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div id="status" class="status"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

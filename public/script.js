@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = '/api';
 
 // Initialize canvas
 async function initCanvas() {
@@ -156,7 +156,7 @@ async function updatePreview() {
                         const height = element.height || img.height;
                         ctx.drawImage(img, element.x, element.y, width, height);
                     };
-                    img.src = `http://localhost:3000/${element.src}`;
+                    img.src = element.src;
                     break;
             }
         }

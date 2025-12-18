@@ -2,30 +2,18 @@ const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
-app.use('/uploads', express.static('uploads'));
 
-// File upload configuration
-const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
-const upload = multer({ storage });
-
-// Ensure uploads directory exists
-if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads');
-}
+// Memory storage for Vercel (no file system)
+const storage = multer.memoryStorage();
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
 // Canvas state storage
 let canvasState = {
@@ -82,13 +70,16 @@ app.post('/api/canvas/image', upload.single('image'), (req, res) => {
   }
   
   const { x = 0, y = 0, width, height } = req.body;
+  const base64 = req.file.buffer.toString('base64');
+  const dataUrl = `data:${req.file.mimetype};base64,${base64}`;
+  
   canvasState.elements.push({
     type: 'image',
     x: parseInt(x),
     y: parseInt(y),
     width: width ? parseInt(width) : undefined,
     height: height ? parseInt(height) : undefined,
-    src: req.file.path
+    src: dataUrl
   });
   res.json({ success: true, elements: canvasState.elements });
 });
@@ -107,6 +98,4 @@ app.get('/api/canvas/export', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+module.exports = app;
